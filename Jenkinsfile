@@ -1,8 +1,8 @@
-pipeline {
+﻿pipeline {
     agent any
 
     environment {
-        DOCKER_USER     = 'YOUR_DOCKER_USERNAME'   // ← ĐỔI thành username của bạn
+        DOCKER_USER     = 'YOUR_DOCKER_USERNAME'   // â† Äá»”I thĂ nh username cá»§a báº¡n
         DOCKER_IMAGE    = "${DOCKER_USER}/devops-lab8-app"
         DOCKER_TAG      = "${env.BUILD_NUMBER}"
         CONTAINER_NAME  = 'lab8-cd-production'
@@ -33,7 +33,7 @@ pipeline {
             steps {
                 echo ' CD STEP 3/6: SCAN IMAGE'
                 sh '''
-                    docker scout quickview ${DOCKER_IMAGE}:${DOCKER_TAG} || echo "  Scout not available — skip"
+                    docker scout quickview ${DOCKER_IMAGE}:${DOCKER_TAG} || echo "  Scout not available â€” skip"
                 '''
             }
         }
@@ -55,11 +55,11 @@ pipeline {
             steps {
                 echo ' CD STEP 5/6: DEPLOY CONTAINER'
                 sh '''
-                    # Stop & remove container cũ nếu có
+                    # Stop & remove container cÅ© náº¿u cĂ³
                     docker stop ${CONTAINER_NAME} 2>/dev/null || true
                     docker rm ${CONTAINER_NAME} 2>/dev/null || true
 
-                    # Deploy container mới
+                    # Deploy container má»›i
                     docker run -d \
                         --name ${CONTAINER_NAME} \
                         -p ${APP_PORT}:3000 \
@@ -84,10 +84,10 @@ pipeline {
 
     post {
         success {
-            echo " CD PIPELINE SUCCESS — Deployed ${DOCKER_IMAGE}:${DOCKER_TAG}"
+            echo " CD PIPELINE SUCCESS â€” Deployed ${DOCKER_IMAGE}:${DOCKER_TAG}"
         }
         failure {
-            echo " CD PIPELINE FAILED — Check logs!"
+            echo " CD PIPELINE FAILED â€” Check logs!"
         }
         always {
             cleanWs()
